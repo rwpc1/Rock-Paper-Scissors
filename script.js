@@ -1,87 +1,80 @@
-"use strict";
-
-const possibleValues = ["rock", "paper", "scissors"];
+const ROCK = "rock";
+const PAPER = "paper";
+const SCISSOR = "scissor";
+const possibleValues = [ROCK, PAPER, SCISSOR];
 
 const getComputerChoice = () =>
   possibleValues[Math.floor(Math.random() * possibleValues.length)];
 
-let computerChoice = getComputerChoice();
+const computerChoice = getComputerChoice();
 
 const playRound = function (playerSelection, computerSelection) {
-  const normalizedUserInput = playerSelection.toLowerCase();
-  if (normalizedUserInput === "rock" && computerSelection === "paper") {
-    return "You lose, paper beats rock";
-  }
-  if (normalizedUserInput === "paper" && computerSelection === "rock") {
-    return "You win, paper beats rock";
-  }
-  if (normalizedUserInput === "paper" && computerSelection === "scissors") {
-    return "You lose, scissors beats paper";
-  }
-  if (normalizedUserInput === "scissors" && computerSelection === "paper") {
-    return "You win, scissors beats paper";
-  }
-  if (normalizedUserInput === "rock" && computerSelection === "scissors") {
-    return "You win, rock beats scissors";
-  }
-  if (normalizedUserInput === "scissors" && computerSelection === "rock") {
-    return "You lose, rock beats scissors";
-  } else {
-    return "Draw";
-  }
-};
+  const normalizedPlayerSelection = playerSelection.toLowerCase();
+  const normalizedComputerSelection = computerSelection.toLowerCase();
 
-let play = playRound("RoCk", computerChoice);
-
-console.log(computerChoice);
-console.log(play);
-
-const playRound2 = function (playerSelection, computerSelection) {
-  const normalizedUserInput = playerSelection.toLowerCase();
-
-  switch (normalizedUserInput) {
-    case "rock":
-      switch (computerSelection) {
-        case "rock":
-          return "Draw";
-        case "paper":
-          return "You lose";
-        case "scissor":
-          return "You win";
+  switch (normalizedPlayerSelection) {
+    case ROCK: {
+      switch (normalizedComputerSelection) {
+        case ROCK:
+          console.log("Draw");
+          return false;
+        case PAPER:
+          console.log("You lose (rock < paper)");
+          return false;
+        case SCISSOR:
+          console.log("You win (rock > scissor)");
+          return true;
         default:
-          return "invalid parameter";
+          return `Invalid selection: ${normalizedComputerSelection}`;
       }
-      break;
-
-      switch (normalizedUserInput) {
-        case "paper":
-          switch (computerSelection) {
-            case "rock":
-              return "You win";
-            case "paper":
-              return "Draw";
-            case "scissor":
-              return "You lose";
-            default:
-              return "invalid parameter";
-          }
+    }
+    case PAPER: {
+      switch (normalizedComputerSelection) {
+        case ROCK:
+          console.log("You win (paper > rock)");
+          return true;
+        case PAPER:
+          console.log("Draw");
+          return false;
+        case SCISSOR:
+          console.log("You lose (paper < scissor)");
+          return false;
+        default:
+          return `Invalid selection: ${normalizedComputerSelection}`;
       }
-      break;
-      switch (normalizedUserInput) {
-        case "scissors":
-          switch (computerSelection) {
-            case "rock":
-              return "You lose";
-            case "paper":
-              return "You win";
-            case "scissors":
-              return "Draw";
-            default:
-              return "invalid parameter";
-          }
+    }
+    case SCISSOR: {
+      switch (normalizedComputerSelection) {
+        case ROCK:
+          console.log("You lose (scissor < rock)");
+          return false;
+        case PAPER:
+          console.log("You win (scissor > paper)");
+          return true;
+        case SCISSOR:
+          console.log("Draw");
+          return false;
+        default:
+          return `Invalid selection: ${normalizedComputerSelection}`;
       }
+    }
+    default:
+      return `Invalid selection: ${normalizedPlayerSelection}`;
   }
 };
 
-let play2 = playRound2("RoCk", computerChoice);
-console.log(play2);
+const round = playRound("rock", computerChoice);
+
+console.log(round);
+
+const game = function () {
+  let computerWinCount = 0;
+  for (let i = 0; i < 5; i++) {
+    if (round === true) {
+      computerWinCount++;
+    }
+  }
+  return computerWinCount;
+};
+
+console.log(game());
