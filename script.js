@@ -3,7 +3,7 @@ const PAPER = "paper";
 const SCISSOR = "scissor";
 const possibleValues = [ROCK, PAPER, SCISSOR];
 
-const getComputerChoice = () =>
+let getComputerChoice = () =>
   possibleValues[Math.floor(Math.random() * possibleValues.length)];
 
 const computerChoice = getComputerChoice();
@@ -63,18 +63,25 @@ const playRound = function (playerSelection, computerSelection) {
   }
 };
 
-const round = playRound("rock", computerChoice);
+const round = playRound(
+  prompt("Choose rock, paper or scissor:"),
+  computerChoice
+);
 
 console.log(round);
 
-const game = function () {
-  let computerWinCount = 0;
+function game() {
+  let computerWins = 0;
   for (let i = 0; i < 5; i++) {
-    if (round === true) {
-      computerWinCount++;
+    if (
+      !playRound(prompt("Choose rock, paper or scissor:"), getComputerChoice())
+    ) {
+      computerWins++;
     }
   }
-  return computerWinCount;
-};
+  if (computerWins >= 3) {
+    console.log("Computer won!");
+  }
+}
 
-console.log(game());
+const playGame = game();
